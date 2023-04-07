@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+from sklearn.model_selection import cross_val_score
 
 #Carregar o conjunto de dados Iris
 df = pd.read_csv('diabetes.csv')
@@ -16,6 +17,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 
 # Criar uma instância do classificador de árvore de decisão
 clf = DecisionTreeClassifier(random_state=42)
+scores = cross_val_score(clf, X, y, cv=5)
+print("Acurácia Média:", scores.mean())
 # Treinar o classificador usando os dados de treinamento
 clf.fit(X_train, y_train)
 DecisionTreeClassifier(random_state=42)
@@ -30,4 +33,4 @@ recall = recall_score(y_test, y_pred, average='weighted')
 f1 = f1_score(y_test, y_pred, average='weighted')
 confusion_mat = confusion_matrix(y_test, y_pred)
 
-print("Acurácia:", accuracy, "\n", "Precisão:", precision, "\n", "Revocação(Recall):", recall, "\n", "F1-Score:", f1, "\n", "Matriz de Confusão:\n", confusion_mat, "\n")
+print("\n", "Acurácia:", accuracy, "\n", "Precisão:", precision, "\n", "Revocação(Recall):", recall, "\n", "F1-Score:", f1, "\n", "Matriz de Confusão:\n", confusion_mat, "\n")
